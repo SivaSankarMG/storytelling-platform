@@ -1,70 +1,85 @@
-# Getting Started with Create React App
+# Collaborative Story Writing App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+This is a **3-tier React-based collaborative story writing application** that allows users to:
+- Read stories
+- Give feedback and rate stories
+- Write new stories
+- Allow others to contribute to stories
+- Revert versions of stories
+- Create rooms for discussions about stories
 
-## Available Scripts
+The application has been **containerized using Docker** for easy deployment and scalability.
 
-In the project directory, you can run:
+## Tech Stack
+- **Frontend:** React.js
+- **Backend:** Node.js with Express.js
+- **Database:** MongoDB
+- **Containerization:** Docker & Docker Compose
 
-### `npm start`
+## Project Structure
+```
+├── story-collab-backend   # Backend service (Express.js)
+├── frontend               # Frontend service (React.js)
+├── docker-compose.yml     # Docker Compose configuration
+└── README.md              # Project documentation
+```
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Docker Compose Configuration
+The application is orchestrated using **Docker Compose**, with the following services:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### 1. Backend Service
+- Builds from `./story-collab-backend`
+- Runs on port `5000`
+- Connected to the `mern_network`
+- Depends on MongoDB
 
-### `npm test`
+### 2. Frontend Service
+- Builds from `./frontend`
+- Runs on port `3000`
+- Environment variable `REACT_APP_API_URL` is set to communicate with the backend
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 3. MongoDB Service
+- Uses the latest MongoDB image
+- Runs on port `27017`
+- Data is persisted using a **named volume** (`mongo-data`)
 
-### `npm run build`
+## Setup & Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Prerequisites
+Ensure you have the following installed on your system:
+- Docker
+- Docker Compose
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Steps to Run the Application
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/SivaSankarMG/storytelling-platform.git
+   cd storytelling-platform
+   ```
+2. Run the application using Docker Compose:
+   ```sh
+   docker-compose up --build
+   ```
+3. The services will be available at:
+   - **Frontend:** `http://localhost:3000`
+   - **Backend:** `http://localhost:5000`
+   - **MongoDB:** Accessible on port `27017`
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. To stop the services, run:
+   ```sh
+   docker-compose down
+   ```
 
-### `npm run eject`
+## Persistent Storage
+The MongoDB service uses a **Docker volume** (`mongo-data`) to persist data across container restarts.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Networking
+All services communicate through a Docker bridge network (`mern_network`), ensuring isolated and secure communication between the frontend, backend, and database.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Future Enhancements
+- Implementing **CI/CD pipelines** for automated deployment
+- Deploying the application using **Kubernetes** for scalability
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
